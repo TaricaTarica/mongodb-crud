@@ -9,4 +9,4 @@ Para poder ejecutar la api es necesario crear un nuevo archivo en la raíz del p
     DB_CONNECTION=mongodb+srv://user:password@example.mongodb.net/test
 ```
 
-[ref:](https://www.npmjs.com/package/dotenv).
+[Dontenv ref.](https://www.npmjs.com/package/dotenv)
