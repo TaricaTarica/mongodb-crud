@@ -12,8 +12,8 @@ module.exports = {
     },
     addRoles: async (req, res) => {
         try {
-          const roles = req.body;
-          this.addRoles(roles, res);
+          const user = req.body;
+          userController.addRoles(user, res);
         } catch (error) {
           console.log(error);
         }
@@ -23,6 +23,7 @@ module.exports = {
           const roles = req.body;
           this.deleteRoles(roles, res);
         } catch (error) {
+          res.status(500).json({  message: error  });
           console.log(error);
         }
     },
