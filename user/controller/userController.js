@@ -27,33 +27,37 @@ module.exports = {
         
     },
     async addRoles(user, res){
-        if(helpers.emailExists(user.email)){
-            if(helpers.userAuth(user.email, user.password)){
-                await User.updateOne({ email: user.email }, {roles: user.roles }).then((data) =>{
-                    if(data.acknowledged){
-                        res.status(200).json({ message: 'Yay, roles added!' });
+        await helpers.emailExists(user.email).then(async exists => {
+            if(exists){
+                await helpers.userAuth(exists, user.email, user.password).then(async auth => {
+                    if(auth){
+                        await User.updateOne({ email: user.email }, {roles: user.roles }).then((data) =>{
+                            if(data.acknowledged){
+                                res.status(200).json({ message: 'Yay, roles added!' });
+                            }
+                            else{
+                                res.status(400).json({ message: error });
+                            }
+                            
+                        })
+                        .catch((error) => {
+                            res.status(400).json({ message: error });
+                        })     
                     }
                     else{
-                        res.status(400).json({ message: error });
+                        res.status(404).json({
+                            code: '104',
+                            message: 'Ups, invalid credentials!' 
+                        });
                     }
-                    
-                })
-                .catch((error) => {
-                    res.status(400).json({ message: error });
-                })            
-            }
-            else{
-                res.status(404).json({
-                    code: '104',
-                    message: 'Ups, invalid credentials!' 
                 });
             }
-        }
-        else{
-            res.status(404).json({ 
-                code: '102',
-                message: 'Ups, user not exists!' 
-            });
-        }
+            else{
+                res.status(404).json({ 
+                    code: '102',
+                    message: 'Ups, user not exists!' 
+                });
+            }
+        });
     }
 }
