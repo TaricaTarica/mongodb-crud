@@ -59,5 +59,17 @@ module.exports = {
                 });
             }
         });
+    },
+    async auth(authUser, res){
+        await helpers.emailExists(authUser.email).then(async exists => {
+            if(exists){
+                await helpers.userAuth(exists, authUser.email, authUser.password).then(auth => {
+                    res.status(200).json(auth);
+                })
+            }
+            else{
+                res.status(200).json(false);
+            }
+        })
     }
 }

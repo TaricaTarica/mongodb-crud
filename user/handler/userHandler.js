@@ -6,7 +6,7 @@ module.exports = {
         const user = req.body;
         userController.create(user, res);
       } catch (error) {
-        res.status(500).json({  message: error  });
+        res.status(500).json({ message: 'Bad request' });
         console.log(error);
       }
     },
@@ -15,23 +15,25 @@ module.exports = {
           const user = req.body;
           userController.addRoles(user, res);
         } catch (error) {
+          res.status(500).json({ message: 'Bad request' });
           console.log(error);
         }
     },
     deleteRoles: async (req, res) => {
         try {
           const roles = req.body;
-          this.deleteRoles(roles, res);
+          userController.deleteRoles(roles, res);
         } catch (error) {
-          res.status(500).json({  message: error  });
+          res.status(500).json({ message: 'Bad request' });
           console.log(error);
         }
     },
     auth: async (req, res) => {
         try {
           const authUser = req.body;
-          this.auth(authUser, res);
+          userController.auth(authUser, res);
         } catch (error) {
+          res.status(500).json({ message: 'Bad request' });
           console.log(error);
         }
     },
