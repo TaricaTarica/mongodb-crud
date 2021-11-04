@@ -17,5 +17,18 @@ module.exports ={
     catch(error){
       console.log("Something went wrong: ", error);
     }
-  } 
+  }, 
+  userHaventRoles(userRoles, roles){
+    _auxUserRoles = [];
+    _auxRoles = [];
+    for(const userRole of userRoles){
+      _auxUserRoles.push(userRole.name);
+    }
+    for(const role of roles){
+      _auxRoles.push(role.name);
+    }
+
+    return _auxRoles.filter(r => !_auxUserRoles.includes(r));
+
+  }
 }

@@ -29,8 +29,8 @@ module.exports = {
     },
     deleteRoles: async (req, res) => {
         try {
-          const roles = req.body;
-          userController.deleteRoles(roles, res);
+          const user = req.body;
+          userController.deleteRoles(user, res);
         } catch (error) {
           res.status(400).json({ message: 'Bad request :(' });
           console.log(error);
