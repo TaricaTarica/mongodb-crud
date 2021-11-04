@@ -2,6 +2,27 @@ const User = require('./../model/User');
 const helpers = require('./../../helpers/helpers');
 
 module.exports = {
+    async errorCodes(req, res){
+        errorCodes = [
+            {
+                code: '101',
+                message: 'Ups, user already exists!' 
+            },
+            {
+                code: '103',
+                message: 'Ups, user not have that role'
+            },
+            { 
+                code: '102',
+                message: 'Ups, user not exists!' 
+            },
+            {
+                code: '104',
+                message: 'Ups, invalid credentials!' 
+            }
+        ];
+        res.status(200).json(errorCodes);
+    },
     async create(user, res){
         if(!helpers.emailExists(user.email)){
             const newUser = new User({
@@ -71,5 +92,5 @@ module.exports = {
                 res.status(200).json(false);
             }
         })
-    }
+    },
 }
