@@ -10,3 +10,5 @@ Para poder ejecutar la api es necesario crear un nuevo archivo en la raíz del p
 ```
 
 [Dontenv ref.](https://www.npmjs.com/package/dotenv)
+
+[Postman collection example.](https://drive.google.com/file/d/1y2XnI3uKE3_i3mYUifcS0SEglqxlrJ7E/view?usp=sharing)
