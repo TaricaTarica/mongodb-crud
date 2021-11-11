@@ -1,6 +1,5 @@
 const User = require('./../model/User');
 const helpers = require('./../../helpers/helpers');
-const { exists } = require('./../model/User');
 
 module.exports = {
     async errorCodes(req, res){
@@ -25,27 +24,34 @@ module.exports = {
         res.status(200).json(errorCodes);
     },
     async create(user, res){
-        if(!helpers.emailExists(user.email)){
-            const newUser = new User({
-                email: user.email,
-                password: user.password,
-                name: user.name,
-                surname: user.surname
-            });
+        await helpers.emailExists(user.email).then(async (exists) =>{
+            if(!exists){
+                const newUser = new User({
+                    email: user.email,
+                    password: user.password,
+                    name: user.name,
+                    surname: user.surname
+                });
+            
+                newUser.save().then((data) => {
+                    res.status(200).json(data);
+                })
+                .catch((error) => {
+                    res.status(400).json({ message: error });
+                });
+            }
+            else{
+                res.status(409).json({ 
+                    code: '101',
+                    message: 'Ups, user already exists!' 
+                });
+            }
+        },
+        (error) => {
+            console.log(">> Error: ", error);
+            res.status(500).json({ message: 'Internal server error x_x' });
+        });
         
-            newUser.save().then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((error) => {
-                res.status(400).json({ message: error });
-            });
-        }
-        else{
-            res.status(409).json({ 
-                code: '101',
-                message: 'Ups, user already exists!' 
-            });
-        }
         
     },
     async addRoles(user, res){
